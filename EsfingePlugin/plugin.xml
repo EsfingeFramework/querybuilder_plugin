@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension id="esfingeplugin.invalidmethodname" point="org.eclipse.core.resources.markers" name="Invalid Method Name">
+		<super type="org.eclipse.core.resources.problemmarker"/>
+		<super type="org.eclipse.core.resources.textmarker"/>
+		<persistent value="true"/>
+	</extension>
+
+	<extension id="esfingeplugin.invalidqueryobject" name="Invalid QueryObject" point="org.eclipse.core.resources.markers">
+	    <super type="org.eclipse.core.resources.problemmarker"/>
+	    <super type="org.eclipse.core.resources.textmarker"/>
+	    <persistent value="true"/>
+	</extension>
+
+	<extension id="esfingeplugin.analysemethods" point="org.eclipse.core.resources.builders">
+	    <builder hasNature="false">
+	        <run class="esfingeplugin.ModificationTracker"/>
+	    </builder>
+	</extension>
+
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu">
+			<command
+				commandId="esfingeplugin.addbuildercommand"
+				label="Add Esfinge Builder"
+				style="push"/>
+			<command
+				commandId="esfingeplugin.removebuildercommand"
+				label="Remove Esfinge Builder"
+				style="push"/>
+		</menuContribution>
+		<menuContribution locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
+			<command
+				commandId="esfingeplugin.addbuildercommand"
+				label="Add Esfinge Builder"
+				style="push"/>
+			<command
+				commandId="esfingeplugin.removebuildercommand"
+				label="Remove Esfinge Builder"
+				style="push"/>
+		</menuContribution>
+	</extension>
+
+	<extension point="org.eclipse.ui.commands">
+		<command id="esfingeplugin.addbuildercommand" name="AddBuilder">
+			<defaultHandler class="esfingeplugin.handlers.AddBuilderHandler"/>
+		</command>
+		<command id="esfingeplugin.removebuildercommand" name="RemoveBuilder">
+			<defaultHandler class="esfingeplugin.handlers.RemoveBuilderHandler"/>
+		</command>
+	</extension>
+
+	<extension point="org.eclipse.ltk.core.refactoring.renameParticipants">
+		<renameParticipant
+			id="org.esfinge.refactoring.participants.type"
+			name="org.esfinge.refactoring.participants.type"
+			class="org.esfinge.plugin.refactoring.participants.EsfingeRenameTypeParticipant">
+			<enablement>
+				<with variable="element">
+					<instanceof value="org.eclipse.jdt.core.IType"/>
+				</with>
+			</enablement>
+		</renameParticipant>
+
+		<renameParticipant
+			id="org.esfinge.refactoring.participants.method"
+			name="org.esfinge.refactoring.participants.method"
+			class="org.esfinge.plugin.refactoring.participants.EsfingeRenameMethodParticipant">
+			<enablement>
+				<with variable="element">
+					<instanceof value="org.eclipse.jdt.core.IMethod"/>
+				</with>
+			</enablement>
+		</renameParticipant>
+	</extension>
+</plugin>
