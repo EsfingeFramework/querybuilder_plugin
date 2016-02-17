@@ -128,7 +128,7 @@ public class MethodsAnalyser {
 			try {
 				for (Method m : clazz.getDeclaredMethods()) {
 					MethodParser mp = chooseMethodParser(m);
-					mp.setInterface(clazz);
+					mp.setInterface(clazz, classLoader);
 					try {
 						mp.parse(m);
 					} catch (QueryObjectException e) {
