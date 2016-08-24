@@ -1,6 +1,5 @@
 package esfingeplugin;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,11 +14,13 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
+import org.esfinge.querybuilder.annotation.QueryObject;
 import org.esfinge.querybuilder.exception.QueryObjectException;
 import org.esfinge.querybuilder.methodparser.DSLMethodParser;
 import org.esfinge.querybuilder.methodparser.EntityClassProvider;
 import org.esfinge.querybuilder.methodparser.MethodParser;
 import org.esfinge.querybuilder.methodparser.QueryObjectMethodParser;
+import org.esfinge.querybuilder.utils.ReflectionUtils;
 
 import esfingeplugin.util.IntervalPrinter;
 import esfingeplugin.util.Markers;
@@ -168,13 +169,10 @@ public class MethodsAnalyser {
 	}
 
 	private MethodParser chooseMethodParser(Method m) {
-		if (m.getParameterTypes().length == 1) {
-			for (Annotation an : m.getParameterAnnotations()[0]) {
-				if ("org.esfinge.querybuilder.annotation.QueryObject".equals(an.annotationType().getName())) {
-					return mpQO;
-				}
-			}
+		if (ReflectionUtils.containsParameterAnnotation(m, QueryObject.class)) {
+			return mpQO;
 		}
+		
 		return mpDSL;
 	}
 

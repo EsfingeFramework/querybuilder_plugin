@@ -47,7 +47,7 @@ public class ParserHelper {
 
 			entitySimpleName = returnTypeSignature.substring(firstIndex + 2, lastIndex - 1);
 		} else {
-			entitySimpleName = returnTypeSignature.substring(1, returnTypeSignature.length() - 2);
+			entitySimpleName = returnTypeSignature.substring(1, returnTypeSignature.length() - 1);
 		}
 
 		return getFullName(entitySimpleName, cUnit);
